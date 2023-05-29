@@ -9,6 +9,7 @@ public abstract class PieceProperties : MonoBehaviour
     public static Player chance=Player.Player1;
     public Player player;
     public int row, column;
+    public float speed=1.6f;
     public abstract void PathHighlighter();
     public virtual void SpecialMove() { }
     private void Start()
@@ -27,7 +28,8 @@ public abstract class PieceProperties : MonoBehaviour
     {
         ChessBoardPlacementHandler.Instance.SetCurrentObject(null);
         ChessBoardPlacementHandler.Instance.ClearAllHighlights();
-        transform.position = ChessBoardPlacementHandler.Instance.GetTile(ro, col).transform.position;
+        //transform.position = Vector3.Lerp(transform.position,ChessBoardPlacementHandler.Instance.GetTile(ro, col).transform.position,speed);
+        StartCoroutine(MoveCoroutine(ChessBoardPlacementHandler.Instance.GetTile(ro, col).transform.position));
         if(ChessBoardPlacementHandler.Instance.GetObjectOnTile(ro,col))
         {
             ChessBoardPlacementHandler.Instance.GetObjectOnTile(ro, col).GetComponent<PieceProperties>().Die();
@@ -45,7 +47,7 @@ public abstract class PieceProperties : MonoBehaviour
         {
             if (piece.GetComponent<PieceProperties>().player != player)
             {
-                ChessBoardPlacementHandler.Instance.Highlight(row, col);
+                ChessBoardPlacementHandler.Instance.Highlight(row, col,true);
             }
             return false;
         }
@@ -55,5 +57,17 @@ public abstract class PieceProperties : MonoBehaviour
     {
         ChessBoardPlacementHandler.Instance.UpdateCellDictionary(this.gameObject, -1, -1, row, column);
         Destroy(this.gameObject);
+    }
+    private IEnumerator MoveCoroutine(Vector3 targetPosition)
+    {
+        float t = 0f;
+        Vector3 startPosition = transform.position;
+
+        while (t < 1f)
+        {
+            t += speed * Time.deltaTime;
+            transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+            yield return null;
+        }
     }
 }

@@ -36,13 +36,15 @@ public sealed class ChessBoardPlacementHandler : MonoBehaviour {
         }
     }
 
-    internal bool Highlight(int row, int col) {
+    internal bool Highlight(int row, int col, bool red = false) {
         var tile = GetTile(row, col);
         if (tile == null) {
             Debug.LogError("Invalid row or column.");
             return false;
         }
         var highlight = Instantiate(_highlightPrefab, tile.transform.position, Quaternion.identity, tile.transform);
+        if (red)
+            highlight.GetComponent<SpriteRenderer>().color = Color.red; //= Instantiate(_highlightPrefab, tile.transform.position, Quaternion.identity, tile.transform);
         highlight.GetComponent<CellSelect>().SetRowCol(row, col);
         currentlyHightlighted.Add(highlight);
         return true;

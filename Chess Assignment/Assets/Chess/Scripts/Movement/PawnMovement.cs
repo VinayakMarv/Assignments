@@ -44,7 +44,7 @@ public class PawnMovement : PieceProperties
             if (piece = ChessBoardPlacementHandler.Instance.GetObjectOnTile(row, col))
             {
                 if (piece.GetComponent<PieceProperties>().player == player) { return false; }
-                else { ChessBoardPlacementHandler.Instance.Highlight(row, col); return true; }
+                else { ChessBoardPlacementHandler.Instance.Highlight(row, col, true); return true; }
             }
             else { return false; }
         }
