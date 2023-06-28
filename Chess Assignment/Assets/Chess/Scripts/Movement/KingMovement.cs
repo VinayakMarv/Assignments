@@ -20,4 +20,8 @@ public class KingMovement : PieceProperties
         HighlightSelector(row - 1, column + 1);
         HighlightSelector(row - 1, column - 1);
     }
+    private void OnDestroy()
+    {
+        GameManager.instance.EndGame(player == Player.Player1 ? true : false);
+    }
 }

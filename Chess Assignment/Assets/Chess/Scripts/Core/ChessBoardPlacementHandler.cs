@@ -8,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 public sealed class ChessBoardPlacementHandler : MonoBehaviour {
     [SerializeField] private GameObject[] _rowsArray;
     [SerializeField] private GameObject _highlightPrefab;
+    [SerializeField] private GameObject _endMenu;
     private GameObject[,] _chessBoard;
     private Dictionary<Vector2, GameObject> CellDictionary = new Dictionary<Vector2, GameObject>();
     private List<GameObject> currentlyHightlighted = new List<GameObject>();
@@ -90,6 +91,10 @@ public sealed class ChessBoardPlacementHandler : MonoBehaviour {
         CellDictionary.Remove(new Vector2(oldRow, oldCol));
         CellDictionary.Remove(new Vector2(newRow, newCol));
         CellDictionary.Add(new Vector2(newRow, newCol),piece);
+    }
+    internal void EndGame()
+    {
+        _endMenu.SetActive(true);
     }
     #region Highlight Testing
 
